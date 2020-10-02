@@ -64,17 +64,15 @@
 								<ods-button size="small" v-on:click="params={'country':country}">Change Param
 								</ods-button>
 							</ods-col>
-							<!--<ods-col :span="3">
-								<ods-button size="small" v-on:click="sendFilterDatalink2(country)">Send Datalink
-								</ods-button>
-							</ods-col>-->
 							<ods-col :span="3">
 								<ods-button size="small" v-on:click="saveDashboard()">Save Dashboard
 								</ods-button>
 							</ods-col>
 						</ods-row>
+						
 						<dashboard-wrapper id="inst1" style="height:700px;width:80%;position:absolute" v-bind:platformbase="platformbase" v-bind:editmode="editmode" v-if="i==1" v-bind:dashboard="dashboard" v-bind:token="token" v-bind:i18n="i18n" v-bind:params="params">
 						</dashboard-wrapper>
+						
 						<ods-col :span="3" style="width:17%;height:700px;overflow-y: hidden;overflow-x: hidden;padding:0px;position:absolute;left:82%">
 							<ods-button v-if="params['$gadgetid']!='MASTER-Gadget-6'" size="small" v-on:click="params={'$gadgetid':'MASTER-Gadget-6'}">Show Only MASTER-Gadget-6
 							</ods-button>
@@ -97,88 +95,31 @@
 							</ods-input>
 							<ods-button v-on:click="DSApi.inst1.forceRender()">Render</ods-button>
 						</ods-col>
-						<!--<dashboard-wrapper id="inst2" style="left:42%;height:700px;width:40%;position:absolute" v-bind:editmode="editmode" v-if="i==1" v-bind:dashboard="dashboard" v-bind:token="token" v-bind:i18n="i18n">
-						</dashboard-wrapper>-->
-						<!--<dashboard-wrapper v-if="i==1" v-bind:model="model" id="MASTER-Dashboard-2" v-bind:token="token">-->
 					</ods-module>
 				</ods-tab-pane>
 			</ods-tabs>
 		</ods-module>
 	</div>
 
-	
-	<!--<script type="text/javascript">
-		// Solves the resized out of the iframe
-		// we capture the events when we leave the window to control the resizing of the items,
-		// we launch a mouseup event to stop the resized
-
-		function addEvent(obj, evt, fn) {
-			if (obj.addEventListener) {
-				obj.addEventListener(evt, fn, false);
-			}
-			else if (obj.attachEvent) {
-				obj.attachEvent("on" + evt, fn);
-			}
-		}
-
-		function triggerEvent(el, type) {
-			if ('createEvent' in document) {
-				// modern browsers, IE9+
-				var e = document.createEvent('HTMLEvents');
-				e.initEvent(type, false, true);
-				el.dispatchEvent(e);
-			} else {
-				// IE 8
-				var e = document.createEventObject();
-				e.eventType = type;
-				el.fireEvent('on' + e.eventType, e);
-			}
-		}
-
-		addEvent(window, "load", function (e) {
-			addEvent(document, "mouseout", function (e) {
-				e = e ? e : window.event;
-				var from = e.relatedTarget || e.toElement;
-				if (!from || from.nodeName == "HTML") {
-					// stop your drag event here	         
-					triggerEvent(document, 'mouseup');
-				}
-			});
-		});	
-	</script>-->
-
-	<!-- Mocano only in edit -->
-	<!--<script>
-		var require = { paths: { 'vs': '/controlpanel/static/vendor/vs' } };
-	</script>
-
-	<script src="/controlpanel/static/vendor/vs/loader.js"></script>
-
-	<script src="/controlpanel/static/vendor/vs/editor/editor.main.nls.js"></script>
-
-	<script src="/controlpanel/static/vendor/vs/editor/editor.main.js"></script> -->
-	<!-- End Monaco Require -->
-
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/styles/vendor.css" />
-	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/gridster.css" />
-	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/styles/app.css" />
+	
+	
+	<link rel="stylesheet" href="{platformbase}/controlpanel/static/dashboards/styles/vendor.css" />
+	<link rel="stylesheet" href="{platformbase}/controlpanel/static/dashboards/gridster.css" />
+	<link rel="stylesheet" href="{platformbase}/controlpanel/static/dashboards/styles/app.css" />
 
 	<!-- VUE and onesait components -->
 
-	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/vendor/onesait-ds/lib/theme-onesait/index.css" />
-	<script type="text/javascript" src="https://gradius.onesaitplatform.com/controlpanel/static/vendor/onesait-ds/lib/vue.min.js"></script>
-	<script type="text/javascript" src="https://gradius.onesaitplatform.com/controlpanel/static/vendor/onesait-ds/lib/index.js"></script>
-	<script src="https://unpkg.com/vuex@2.0.0"></script>
-	<script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+	<link rel="stylesheet" href="{platformbase}/controlpanel/static/vendor/onesait-ds/lib/theme-onesait/index.css" />
+	<script type="text/javascript" src="{platformbase}/controlpanel/static/vendor/onesait-ds/lib/vue.min.js"></script>
+	<script type="text/javascript" src="{platformbase}/controlpanel/static/vendor/onesait-ds/lib/index.js"></script>
 
-	<script src="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/scripts/vendor.js"></script>
-	<script src="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/gridster.js"></script>
-	<!--<link rel="stylesheet" href="/controlpanel/static/dashboards/resources/lf-ng-md-file-input.min.css" />
-	<script src="/controlpanel/static/dashboards/resources/lf-ng-md-file-input.min.js"></script>-->
-	<script src="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/scripts/app.js"></script>
+	<script src="{platformbase}/controlpanel/static/dashboards/scripts/vendor.js"></script>
+	<script src="{platformbase}/controlpanel/static/dashboards/gridster.js"></script>
+	
+	<script src="{platformbase}/controlpanel/static/dashboards/scripts/app.js"></script>
 
-	<script src="https://gradius.onesaitplatform.com/controlpanel/static/js/pages/dashboardMessageHandler.js"></script>
+	<script src="{platformbase}/controlpanel/static/js/pages/dashboardMessageHandler.js"></script>
 
 	<script src="./vue-sample-app.js"></script>
 	<script src="../vue-wrapper-component.js"></script>
