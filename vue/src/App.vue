@@ -2,7 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <dashboard-wrapper id="inst1" style="height:700px;width:80%;position:absolute" editmode="true" :dashboard="dashboard" :token="token" i18n="false">
+    <dashboard-wrapper id="inst1" style="height:700px;width:80%;position:absolute" editmode="true" :dashboard="dashboard" :token="token" :platformbase="platformbase" i18n="false">
     </dashboard-wrapper>
   </div>
 </template>
@@ -18,9 +18,12 @@ export default {
     HelloWorld,
     dashboardWrapper
   },
-  data:{
-    dashboard: "{dashboardid}",
-    token: "{token}"
+  data: function(){
+    return {
+      dashboard: "{{dashboardID}}",
+      token: "{{token}}",
+      platformbase: "{{platformbase}}"
+    }
   }
 }
 </script>

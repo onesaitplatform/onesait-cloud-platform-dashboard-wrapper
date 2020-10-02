@@ -30,24 +30,24 @@ export default {
       return Object.keys(obj).length === 0 && obj.constructor === Object;
     }
     this.setConfig = function(token, params, platformbase) {
-    __env = window.__env || {};
-    __env.socketEndpointConnect = (platformbase?platformbase:'') + '/dashboardengine/dsengine/solver';
-    __env.socketEndpointSend = '/dsengine/solver';
-    __env.socketEndpointSubscribe = '/dsengine/broker';
-    __env.endpointControlPanel = (platformbase?platformbase:'') + '/controlpanel';
-    __env.endpointDashboardEngine = (platformbase?platformbase:'') + '/dashboardengine';
-    __env.dashboardEngineUsername = '';
-    __env.dashboardEnginePassword = '';
-    __env.dashboardEngineOauthtoken = token;
-    __env.dashboardEngineLoginRest = '/loginRest';
-    __env.enableDebug = false;
-    if(!params){
-      __env.urlParameters = getURLParameters();
-    }
-    else{
-      __env.urlParameters = params;
-    }
-  __env.dashboardEngineBungleMode = true;
+      this.__env = window.__env || {};
+      this.__env.socketEndpointConnect = (platformbase?platformbase:'') + '/dashboardengine/dsengine/solver';
+      this.__env.socketEndpointSend = '/dsengine/solver';
+      this.__env.socketEndpointSubscribe = '/dsengine/broker';
+      this.__env.endpointControlPanel = (platformbase?platformbase:'') + '/controlpanel';
+      this.__env.endpointDashboardEngine = (platformbase?platformbase:'') + '/dashboardengine';
+      this.__env.dashboardEngineUsername = '';
+      this.__env.dashboardEnginePassword = '';
+      this.__env.dashboardEngineOauthtoken = token;
+      this.__env.dashboardEngineLoginRest = '/loginRest';
+      this.__env.enableDebug = false;
+      if(!params){
+        this.__env.urlParameters = this.getURLParameters();
+      }
+      else{
+        this.__env.urlParameters = params;
+      }
+      this.__env.dashboardEngineBungleMode = true;
       
       angular.module('dashboardFramework').constant('__env', this.__env);
       window.__env = this.__env;
@@ -169,7 +169,7 @@ export default {
   },
   mounted: function () {
 
-    var baseop = "http://localhost:8087"
+    var baseop = this.platformbase;
 
     let l1  = document.createElement('link');
     l1.rel  = 'stylesheet';
@@ -206,21 +206,21 @@ export default {
           let s3 = document.createElement('script')
           s3.setAttribute('src', baseop + '/controlpanel/static/dashboards/scripts/app.js');
           s3.onload = function(){
+           
+            scope.setConfig(scope.token, scope.params, scope.platformbase);
+
+            if (scope.model) {
+              scope.setCacheValue(scope.model);
+            }
+
+            var subapp = scope.$el.getElementsByTagName("dashboard")[0];
+            subapp.id = scope.dashboard;
+            subapp.setAttribute("editmode", scope.editmode ? "true" : "false");
+
+            scope.loadApp(scope.id, scope.token, subapp, scope.i18n, scope.api, scope.dashboard);
+
             let s4 = document.createElement('script')
             s4.setAttribute('src', baseop + '/controlpanel/static/js/pages/dashboardMessageHandler.js');
-            s4.onload = function(){
-              scope.setConfig(scope.token, this.params, this.platformbase);
-
-              if (scope.model) {
-                scope.setCacheValue(scope.model);
-              }
-
-              var subapp = scope.$el.getElementsByTagName("dashboard")[0];
-              subapp.id = scope.dashboard;
-              subapp.setAttribute("editmode", scope.editmode ? "true" : "false");
-
-              scope.loadApp(scope.id, scope.token, subapp, scope.i18n, scope.api, scope.dashboard);
-            }
             document.head.appendChild(s4);
           }
           document.head.appendChild(s3);
