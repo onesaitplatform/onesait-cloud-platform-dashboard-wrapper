@@ -1,0 +1,190 @@
+<!--
+
+    Copyright Indra Soluciones Tecnologías de la Información, S.L.U.
+    2013-2019 SPAIN
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+         http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<html lang="EN">
+
+<head></head>
+
+<!-- VUE and onesait components -->
+
+<!-- page-sidebar-closed to start page with collapsed menu -->
+
+<body class="layout-column">
+	<div id="app" style="height:100%">
+		<ods-module header="Dashboards from onesait platform">
+			<ods-tabs v-model="tabactive">
+				<ods-tab-pane label="Flights" name="second">
+					<ods-module style="height:900px" :body-style="bodyStyle" header="Dashboard OpenFlight Datasources"
+						v-if="tabactive=='second'">
+						<ods-row gutter="70" style="padding-bottom: 15px;padding-left:15px">
+							<ods-col :span="3">
+								<ods-button size="small" v-on:click="loadFromDS()">Load from datasource</ods-button>
+							</ods-col>
+							<ods-col :span="2">
+								<ods-button size="small" v-on:click="i=1">Load</ods-button>
+							</ods-col>
+							<ods-col :span="2">
+								<ods-button size="small" v-if="i==1" v-on:click="swapBoard()">Swap Dasboard</ods-button>
+							</ods-col>
+							<ods-col :span="3" style="padding-left:80px">
+								<ods-select v-model="country">
+									<ods-option v-for="item in options" :key="item.country" :label="item.country"
+										:value="item.country">
+									</ods-option>
+								</ods-select>
+
+							</ods-col>
+							
+							<ods-col :span="2">
+								<ods-button size="small" v-on:click="sendFilterDatalink(country)">Send Datalink
+								</ods-button>
+							</ods-col>
+							<ods-col :span="2">
+								<ods-button size="small" v-on:click="api.sendParam('country',country)">Send Param
+								</ods-button>
+							</ods-col>
+							<ods-col :span="2">
+								<ods-button size="small" v-on:click="api.sendParams([{'param':'country','value':country}])">Send Params
+								</ods-button>
+							</ods-col>
+							<ods-col :span="2">
+								<ods-button size="small" v-on:click="params={'country':country}">Change Param
+								</ods-button>
+							</ods-col>
+							<!--<ods-col :span="3">
+								<ods-button size="small" v-on:click="sendFilterDatalink2(country)">Send Datalink
+								</ods-button>
+							</ods-col>-->
+							<ods-col :span="3">
+								<ods-button size="small" v-on:click="saveDashboard()">Save Dashboard
+								</ods-button>
+							</ods-col>
+						</ods-row>
+						<dashboard-wrapper id="inst1" style="height:700px;width:80%;position:absolute" v-bind:platformbase="platformbase" v-bind:editmode="editmode" v-if="i==1" v-bind:dashboard="dashboard" v-bind:token="token" v-bind:i18n="i18n" v-bind:params="params">
+						</dashboard-wrapper>
+						<ods-col :span="3" style="width:17%;height:700px;overflow-y: hidden;overflow-x: hidden;padding:0px;position:absolute;left:82%">
+							<ods-button v-if="params['$gadgetid']!='MASTER-Gadget-6'" size="small" v-on:click="params={'$gadgetid':'MASTER-Gadget-6'}">Show Only MASTER-Gadget-6
+							</ods-button>
+
+							<ods-button v-if="params['$gadgetid']=='MASTER-Gadget-6'" size="small" v-on:click="params={}">Go back to dashboard
+							</ods-button>
+							
+							<div class="dragg-button-gad" type="livehtml" id="livehtml" draggable="true" v-on:dragstart="dragStartHandler"><img src="/controlpanel/static/images/dashboards/icon_template.svg"><div class="gadget-text">Template</div></div>
+							<div class="dragg-button-gad" type="livehtml" id="livehtml" draggable="true" v-on:dragstart="addDataTemplate({'id':'id1234','title':'Select Gadg'}, $event)"><div class="gadget-text">Select Template</div></div>
+							
+							<div v-for="g in glist" draggable="true" v-on:dragstart="addData(g, $event)" style="font-size:12px;margin:3px;height:24px;background-color: #2196F3;padding: 2px 10px;color: white;border-radius: 4px;">
+								{{g.title}}
+							</div>
+
+							<ods-input
+								type="textarea"
+								autosize
+								placeholder="Please input"
+								v-model="jsongadget.content">
+							</ods-input>
+							<ods-button v-on:click="DSApi.inst1.forceRender()">Render</ods-button>
+						</ods-col>
+						<!--<dashboard-wrapper id="inst2" style="left:42%;height:700px;width:40%;position:absolute" v-bind:editmode="editmode" v-if="i==1" v-bind:dashboard="dashboard" v-bind:token="token" v-bind:i18n="i18n">
+						</dashboard-wrapper>-->
+						<!--<dashboard-wrapper v-if="i==1" v-bind:model="model" id="MASTER-Dashboard-2" v-bind:token="token">-->
+					</ods-module>
+				</ods-tab-pane>
+			</ods-tabs>
+		</ods-module>
+	</div>
+
+	
+	<!--<script type="text/javascript">
+		// Solves the resized out of the iframe
+		// we capture the events when we leave the window to control the resizing of the items,
+		// we launch a mouseup event to stop the resized
+
+		function addEvent(obj, evt, fn) {
+			if (obj.addEventListener) {
+				obj.addEventListener(evt, fn, false);
+			}
+			else if (obj.attachEvent) {
+				obj.attachEvent("on" + evt, fn);
+			}
+		}
+
+		function triggerEvent(el, type) {
+			if ('createEvent' in document) {
+				// modern browsers, IE9+
+				var e = document.createEvent('HTMLEvents');
+				e.initEvent(type, false, true);
+				el.dispatchEvent(e);
+			} else {
+				// IE 8
+				var e = document.createEventObject();
+				e.eventType = type;
+				el.fireEvent('on' + e.eventType, e);
+			}
+		}
+
+		addEvent(window, "load", function (e) {
+			addEvent(document, "mouseout", function (e) {
+				e = e ? e : window.event;
+				var from = e.relatedTarget || e.toElement;
+				if (!from || from.nodeName == "HTML") {
+					// stop your drag event here	         
+					triggerEvent(document, 'mouseup');
+				}
+			});
+		});	
+	</script>-->
+
+	<!-- Mocano only in edit -->
+	<!--<script>
+		var require = { paths: { 'vs': '/controlpanel/static/vendor/vs' } };
+	</script>
+
+	<script src="/controlpanel/static/vendor/vs/loader.js"></script>
+
+	<script src="/controlpanel/static/vendor/vs/editor/editor.main.nls.js"></script>
+
+	<script src="/controlpanel/static/vendor/vs/editor/editor.main.js"></script> -->
+	<!-- End Monaco Require -->
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/styles/vendor.css" />
+	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/gridster.css" />
+	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/styles/app.css" />
+
+	<!-- VUE and onesait components -->
+
+	<link rel="stylesheet" href="https://gradius.onesaitplatform.com/controlpanel/static/vendor/onesait-ds/lib/theme-onesait/index.css" />
+	<script type="text/javascript" src="https://gradius.onesaitplatform.com/controlpanel/static/vendor/onesait-ds/lib/vue.min.js"></script>
+	<script type="text/javascript" src="https://gradius.onesaitplatform.com/controlpanel/static/vendor/onesait-ds/lib/index.js"></script>
+	<script src="https://unpkg.com/vuex@2.0.0"></script>
+	<script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+
+	<script src="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/scripts/vendor.js"></script>
+	<script src="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/gridster.js"></script>
+	<!--<link rel="stylesheet" href="/controlpanel/static/dashboards/resources/lf-ng-md-file-input.min.css" />
+	<script src="/controlpanel/static/dashboards/resources/lf-ng-md-file-input.min.js"></script>-->
+	<script src="https://gradius.onesaitplatform.com/controlpanel/static/dashboards/scripts/app.js"></script>
+
+	<script src="https://gradius.onesaitplatform.com/controlpanel/static/js/pages/dashboardMessageHandler.js"></script>
+
+	<script src="./vue-sample-app.js"></script>
+	<script src="../vue-wrapper-component.js"></script>
+
+
+
+</body>
+
+</html>

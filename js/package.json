@@ -1,0 +1,20 @@
+{
+  "name": "VueOPDashboard",
+  "version": "1.0.0",
+  "description": "Vue Wrapper for enable view and edit onesait platform dashboards ",
+  "main": "vue-wrapper-component.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "onesaitplatform",
+  "keywords": [
+    "onesait",
+    "onesait platform",
+    "Dashboard",
+    "Wrapper",
+	"VueJS",
+	"DashboardEngine",
+	"de"
+  ],
+  "license": "Apache-2.0"
+}
