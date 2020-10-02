@@ -80,7 +80,7 @@
 							<ods-button v-if="params['$gadgetid']=='MASTER-Gadget-6'" size="small" v-on:click="params={}">Go back to dashboard
 							</ods-button>
 							
-							<div class="dragg-button-gad" type="livehtml" id="livehtml" draggable="true" v-on:dragstart="dragStartHandler"><img src="/controlpanel/static/images/dashboards/icon_template.svg"><div class="gadget-text">Template</div></div>
+							<div class="dragg-button-gad" type="livehtml" id="livehtml" draggable="true" v-on:dragstart="dragStartHandler"><img src="{{platformbase}}/controlpanel/static/images/dashboards/icon_template.svg"><div class="gadget-text">Template</div></div>
 							<div class="dragg-button-gad" type="livehtml" id="livehtml" draggable="true" v-on:dragstart="addDataTemplate({'id':'id1234','title':'Select Gadg'}, $event)"><div class="gadget-text">Select Template</div></div>
 							
 							<div v-for="g in glist" draggable="true" v-on:dragstart="addData(g, $event)" style="font-size:12px;margin:3px;height:24px;background-color: #2196F3;padding: 2px 10px;color: white;border-radius: 4px;">
@@ -104,22 +104,22 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 	
 	
-	<link rel="stylesheet" href="{platformbase}/controlpanel/static/dashboards/styles/vendor.css" />
-	<link rel="stylesheet" href="{platformbase}/controlpanel/static/dashboards/gridster.css" />
-	<link rel="stylesheet" href="{platformbase}/controlpanel/static/dashboards/styles/app.css" />
+	<link rel="stylesheet" href="{{platformbase}}/controlpanel/static/dashboards/styles/vendor.css" />
+	<link rel="stylesheet" href="{{platformbase}}/controlpanel/static/dashboards/gridster.css" />
+	<link rel="stylesheet" href="{{platformbase}}/controlpanel/static/dashboards/styles/app.css" />
 
 	<!-- VUE and onesait components -->
 
-	<link rel="stylesheet" href="{platformbase}/controlpanel/static/vendor/onesait-ds/lib/theme-onesait/index.css" />
-	<script type="text/javascript" src="{platformbase}/controlpanel/static/vendor/onesait-ds/lib/vue.min.js"></script>
-	<script type="text/javascript" src="{platformbase}/controlpanel/static/vendor/onesait-ds/lib/index.js"></script>
+	<link rel="stylesheet" href="{{platformbase}}/controlpanel/static/vendor/onesait-ds/lib/theme-onesait/index.css" />
+	<script type="text/javascript" src="{{platformbase}}/controlpanel/static/vendor/onesait-ds/lib/vue.min.js"></script>
+	<script type="text/javascript" src="{{platformbase}}/controlpanel/static/vendor/onesait-ds/lib/index.js"></script>
 
-	<script src="{platformbase}/controlpanel/static/dashboards/scripts/vendor.js"></script>
-	<script src="{platformbase}/controlpanel/static/dashboards/gridster.js"></script>
+	<script src="{{platformbase}}/controlpanel/static/dashboards/scripts/vendor.js"></script>
+	<script src="{{platformbase}}/controlpanel/static/dashboards/gridster.js"></script>
 	
-	<script src="{platformbase}/controlpanel/static/dashboards/scripts/app.js"></script>
+	<script src="{{platformbase}}/controlpanel/static/dashboards/scripts/app.js"></script>
 
-	<script src="{platformbase}/controlpanel/static/js/pages/dashboardMessageHandler.js"></script>
+	<script src="{{platformbase}}/controlpanel/static/js/pages/dashboardMessageHandler.js"></script>
 
 	<script src="./vue-sample-app.js"></script>
 	<script src="../vue-wrapper-component.js"></script>
