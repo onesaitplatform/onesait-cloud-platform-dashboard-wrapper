@@ -1,9 +1,17 @@
-# testvue
+# Sample Vue project with dashboard wrapper
 
 ## Project setup
 ```
 npm install
 ```
+
+## Change params in App.vue
+
+dashboard --> your dashboard ID
+
+token --> your oauth2 user bearer token
+
+platformbase --> your onesaitplatform base url
 
 ### Compiles and hot-reloads for development
 ```
