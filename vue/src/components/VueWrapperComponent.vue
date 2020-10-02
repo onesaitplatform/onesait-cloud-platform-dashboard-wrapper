@@ -9,7 +9,7 @@ export default {
   /*global angular*/
   /*eslint no-undef: "error"*/
   name: 'dashboard-wrapper',
-  props: ['id', 'token', 'model', 'i18n', 'api', 'dashboard', 'editmode', 'params'],
+  props: ['id', 'token', 'model', 'i18n', 'api', 'dashboard', 'editmode', 'params', 'platformbase'],
   created: function () {
     this.getURLParameters = function() {
       var sPageURL = window.location.search.substring(1);
@@ -29,20 +29,25 @@ export default {
     this.isEmptyJson = function(obj) {
       return Object.keys(obj).length === 0 && obj.constructor === Object;
     }
-    this.setConfig = function(token) {
-      this.__env = window.__env || {};
-      this.__env.socketEndpointConnect = 'http://localhost:8087/dashboardengine/dsengine/solver';
-      this.__env.socketEndpointSend = '/dsengine/solver';
-      this.__env.socketEndpointSubscribe = '/dsengine/broker';
-      this.__env.endpointControlPanel = 'http://localhost:8087/controlpanel';
-      this.__env.endpointDashboardEngine = 'http://localhost:8087/dashboardengine';
-      this.__env.dashboardEngineUsername = '';
-      this.__env.dashboardEnginePassword = '';
-      this.__env.dashboardEngineOauthtoken = token;
-      this.__env.dashboardEngineLoginRest = '/loginRest';
-      this.__env.enableDebug = false;
-      this.__env.urlParameters = this.getURLParameters();
-      this.__env.dashboardEngineBungleMode = true;
+    this.setConfig = function(token, params, platformbase) {
+    __env = window.__env || {};
+    __env.socketEndpointConnect = (platformbase?platformbase:'') + '/dashboardengine/dsengine/solver';
+    __env.socketEndpointSend = '/dsengine/solver';
+    __env.socketEndpointSubscribe = '/dsengine/broker';
+    __env.endpointControlPanel = (platformbase?platformbase:'') + '/controlpanel';
+    __env.endpointDashboardEngine = (platformbase?platformbase:'') + '/dashboardengine';
+    __env.dashboardEngineUsername = '';
+    __env.dashboardEnginePassword = '';
+    __env.dashboardEngineOauthtoken = token;
+    __env.dashboardEngineLoginRest = '/loginRest';
+    __env.enableDebug = false;
+    if(!params){
+      __env.urlParameters = getURLParameters();
+    }
+    else{
+      __env.urlParameters = params;
+    }
+  __env.dashboardEngineBungleMode = true;
       
       angular.module('dashboardFramework').constant('__env', this.__env);
       window.__env = this.__env;
@@ -204,7 +209,7 @@ export default {
             let s4 = document.createElement('script')
             s4.setAttribute('src', baseop + '/controlpanel/static/js/pages/dashboardMessageHandler.js');
             s4.onload = function(){
-              scope.setConfig(scope.token, scope.i18n, this.params);
+              scope.setConfig(scope.token, this.params, this.platformbase);
 
               if (scope.model) {
                 scope.setCacheValue(scope.model);
@@ -238,7 +243,7 @@ export default {
       var subapp = this.$el.getElementsByTagName("dashboard")[0];
       this.clearApp(parent, subapp);
       subapp.id = this.dashboard;
-      this.setConfig(this.token, this.i18n, this.params);
+      this.setConfig(this.token, this.params, this.platformbase);
       this.loadApp(this.id, this.token, subapp, this.i18n, this.api, newVal);
     }
   },
