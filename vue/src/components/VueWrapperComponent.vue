@@ -124,6 +124,7 @@ export default {
     }
 
     this.loadApp = function(id, token, appRootNode, i18n, api, dashboard) {
+      var scope = this;
       if (i18n == true) {
         fetch(this.__env.endpointControlPanel + "/dashboards/i18n/" + dashboard, {
           method: 'get',
@@ -142,28 +143,28 @@ export default {
           return res.json();
         }).then(
           function (i18n) {
-            this.__env.i18njson = i18n;
+            scope.__env.i18njson = i18n;
             angular.bootstrap(angular.element(appRootNode), ['dashboardFramework']);
-            this.api = this.generateDSApi(appRootNode);
+            scope.api = scope.generateDSApi(appRootNode);
             if (!window.DSApi) {
               window.DSApi = {}
             }
-            window.DSApi[id] = this.api;
+            window.DSApi[id] = scope.api;
           }
         ).catch(
-          this.drawError
+          scope.drawError
         )
       }
       else {
         if (i18n) {
-          this.__env.i18njson = i18n;
+          scope.__env.i18njson = i18n;
         }
         angular.bootstrap(angular.element(appRootNode), ['dashboardFramework']);
-        this.api = this.generateDSApi(appRootNode);
+        scope.api = scope.generateDSApi(appRootNode);
         if (!window.DSApi) {
           window.DSApi = {}
         }
-        window.DSApi[id] = this.api;
+        window.DSApi[id] = scope.api;
       }
     }
   },
@@ -215,9 +216,9 @@ export default {
 
             var subapp = scope.$el.getElementsByTagName("dashboard")[0];
             subapp.id = scope.dashboard;
-            subapp.setAttribute("editmode", scope.editmode ? "true" : "false");
+            subapp.setAttribute("editmode", scope.editmode ? scope.editmode : "false");
 
-            scope.loadApp(scope.id, scope.token, subapp, scope.i18n, scope.api, scope.dashboard);
+            scope.loadApp(scope.id, scope.token, subapp, scope.i18n ? scope.i18n == 'true': false, scope.api, scope.dashboard);
 
             let s4 = document.createElement('script')
             s4.setAttribute('src', baseop + '/controlpanel/static/js/pages/dashboardMessageHandler.js');
