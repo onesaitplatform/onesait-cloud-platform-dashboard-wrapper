@@ -145,7 +145,7 @@ export default {
           function (i18n) {
             scope.__env.i18njson = i18n;
             angular.bootstrap(angular.element(appRootNode), ['dashboardFramework']);
-            scope.api = scope.generateDSApi(appRootNode);
+            scope.api["api"] = scope.generateDSApi(appRootNode);
             if (!window.DSApi) {
               window.DSApi = {}
             }
@@ -160,7 +160,7 @@ export default {
           scope.__env.i18njson = i18n;
         }
         angular.bootstrap(angular.element(appRootNode), ['dashboardFramework']);
-        scope.api = scope.generateDSApi(appRootNode);
+        scope.api["api"] = scope.generateDSApi(appRootNode);
         if (!window.DSApi) {
           window.DSApi = {}
         }

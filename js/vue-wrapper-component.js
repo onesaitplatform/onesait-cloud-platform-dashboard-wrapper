@@ -134,7 +134,7 @@ function loadApp(id, token, appRootNode, i18n, api, dashboard) {
       function (i18n) {
         __env.i18njson = i18n;
         angular.bootstrap(angular.element(appRootNode), ['dashboardFramework']);
-        this.api = generateDSApi(appRootNode);
+        this.api["api"] = generateDSApi(appRootNode);
         if (!window.DSApi) {
           window.DSApi = {}
         }
@@ -149,7 +149,7 @@ function loadApp(id, token, appRootNode, i18n, api, dashboard) {
       __env.i18njson = i18n;
     }
     angular.bootstrap(angular.element(appRootNode), ['dashboardFramework']);
-    this.api = generateDSApi(appRootNode);
+    this.api["api"] = generateDSApi(appRootNode);
     if (!window.DSApi) {
       window.DSApi = {}
     }
