@@ -1,10 +1,18 @@
 <template>
+  <div>
   <div v-pre>
     <dashboard api=api wrapper="true" editmode="false" iframe="true" selectedpage="0" public="false" class="flex layout-column" v-pre></dashboard>
-    </div>
+  </div>
+  <script v-on:load="st=1" v-if="!alreadyloaded" type="application/javascript" v-bind:src="platformbase + '/controlpanel/static/dashboards/scripts/vendor.js'"></script>
+  <script v-on:load="st=2" v-if="st>0" type="application/javascript" v-bind:src="platformbase + '/controlpanel/static/dashboards/gridster.js'"></script>
+  <script v-on:load="vt=1" v-if="!alreadyloaded" type="application/javascript" v-bind:src="platformbase + '/controlpanel/static/vendor/onesait-ds/lib/vue.min.js'"></script>
+  <script v-on:load="vt=2" v-if="vt>0" type="application/javascript" v-bind:src="platformbase + '/controlpanel/static/vendor/onesait-ds/lib/index.js'"></script>
+  <script v-on:load="startApp()" v-if="st>1 && vt>1" type="application/javascript" v-bind:src="platformbase + '/controlpanel/static/dashboards/scripts/app.js'"></script>
+  </div>
 </template>
 
 <script>
+
 export default {
   /*global angular*/
   /*eslint no-undef: "error"*/
@@ -196,40 +204,14 @@ export default {
     l4.href = baseop + '/controlpanel/static/dashboards/styles/app.css';
     document.head.appendChild(l4);
 
-    var scope = this;
-
-    let s1 = document.createElement('script')
-    s1.setAttribute('src', baseop + '/controlpanel/static/dashboards/scripts/vendor.js');
-    s1.onload = function(){
-        let s2 = document.createElement('script')
-        s2.setAttribute('src', baseop + '/controlpanel/static/dashboards/gridster.js');
-        s2.onload = function(){
-          let s3 = document.createElement('script')
-          s3.setAttribute('src', baseop + '/controlpanel/static/dashboards/scripts/app.js');
-          s3.onload = function(){
-           
-            scope.setConfig(scope.token, scope.params, scope.platformbase);
-
-            if (scope.model) {
-              scope.setCacheValue(scope.model);
-            }
-
-            var subapp = scope.$el.getElementsByTagName("dashboard")[0];
-            subapp.id = scope.dashboard;
-            subapp.setAttribute("editmode", scope.editmode ? scope.editmode : "false");
-
-            scope.loadApp(scope.id, scope.token, subapp, scope.i18n ? scope.i18n == 'true': false, scope.api, scope.dashboard);
-
-            let s4 = document.createElement('script')
-            s4.setAttribute('src', baseop + '/controlpanel/static/js/pages/dashboardMessageHandler.js');
-            document.head.appendChild(s4);
-          }
-          document.head.appendChild(s3);
-        }
-        document.head.appendChild(s2);
-    };
-    document.head.appendChild(s1);
-
+    let l5  = document.createElement('link');
+    l5.rel  = 'stylesheet';
+    l5.type = 'text/css';
+    l5.href = baseop + '/controlpanel/static/vendor/onesait-ds/lib/theme-onesait/index.css';
+    document.head.appendChild(l5);
+    if(window.DSApi) {
+      this.startApp();
+    }
   },
   watch: {
     dashboard: function (newVal) { // watch it
@@ -250,6 +232,29 @@ export default {
   },
   beforeDestroy: function () {
     this.clearApp(this.$el, this.$el.getElementsByTagName("dashboard")[0]);
+  },
+  data: function () {
+    return {
+      st: 0,
+      vt: 0,
+      alreadyloaded: !!window.DSApi
+    }
+  },
+  methods: {
+    startApp: function() {
+      var scope = this;
+      scope.setConfig(scope.token, scope.params, scope.platformbase);
+
+      if (scope.model) {
+        scope.setCacheValue(scope.model);
+      }
+
+      var subapp = scope.$el.getElementsByTagName("dashboard")[0];
+      subapp.id = scope.dashboard;
+      subapp.setAttribute("editmode", scope.editmode ? scope.editmode : "false");
+
+      scope.loadApp(scope.id, scope.token, subapp, scope.i18n ? scope.i18n == 'true': false, scope.api, scope.dashboard);
+    }
   }
 }
 </script>
