@@ -122,6 +122,7 @@ export default {
       api.sendParam = app.injector().get("urlParamService").sendBroadcastParam;
       api.sendParams = app.injector().get("urlParamService").sendBroadcastParams;
       api.gmanagerService = app.injector().get("gadgetManagerService");
+      api.favoriteService = app.injector().get("favoriteGadgetService");
       api.setInlineDragType = function(type){
         return app.isolateScope().vm.dashboard.dragGadgetType = type;
       }
